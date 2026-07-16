@@ -1,34 +1,26 @@
+// --- LOGIKA MENU HAMBURGER ---
 const menuBtn = document.getElementById('menu-btn');
 const menu = document.getElementById('menu');
 
-function showMenu() {
-  menu.classList.remove('translate-x-full');
+// Fungsi untuk toggle menu (muncul/hilang saat diklik)
+function toggleMenu() {
+  menu.classList.toggle('translate-x-full');
 }
 
-function hideMenu() {
-  menu.classList.add('translate-x-full');
-}
-
-menuBtn.addEventListener('mousedown', (e) => {
-  e.preventDefault();
-  showMenu();
+// Event listener untuk klik pada tombol menu
+menuBtn.addEventListener('click', (e) => {
+  e.stopPropagation(); // Mencegah klik tombol dianggap sebagai klik di luar menu
+  toggleMenu();
 });
 
-menuBtn.addEventListener('mouseup', (e) => {
-  e.preventDefault();
-  hideMenu();
+// Menutup menu jika pengguna mengklik di area mana pun di luar menu
+document.addEventListener('click', (e) => {
+  if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+    menu.classList.add('translate-x-full');
+  }
 });
 
-menuBtn.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  showMenu();
-}, { passive: false });
-
-menuBtn.addEventListener('touchend', (e) => {
-  e.preventDefault();
-  hideMenu();
-}, { passive: false });
-
+// --- LOGIKA SLIDESHOW HOBI ---
 document.addEventListener("DOMContentLoaded", () => {
   const cards = document.querySelectorAll(".slideshow-card");
 
@@ -37,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let index = 0;
     let interval;
 
+    // Mulai slideshow saat kursor masuk ke card
     card.addEventListener("mouseenter", () => {
       interval = setInterval(() => {
         images[index].classList.remove("active");
@@ -45,10 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 1200);
     });
 
+    // Hentikan slideshow saat kursor keluar dari card
     card.addEventListener("mouseleave", () => {
       clearInterval(interval);
       images.forEach(img => img.classList.remove("active"));
-      images[0].classList.add("active");
+      images[0].classList.add("active"); // Kembali ke gambar pertama
     });
   });
 });
